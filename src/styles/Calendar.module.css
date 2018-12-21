@@ -1,0 +1,43 @@
+.daysContainer {
+  display: flex;
+  width: 80%;
+  height: 100%;
+  flex-wrap: wrap;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.daysContainer__day,
+.daysContainer__title,
+.daysContainer__day__choosen,
+.daysContainer__day__isToday,
+.daysContainer__day__out {
+  flex: 1 0 calc(100% / 7);
+  box-sizing: border-box;
+  color: black;
+  padding: 10px;
+}
+.daysContainer__day {
+  background-color: white;
+}
+
+.daysContainer__day__isToday {
+  background-color: black;
+  color: white;
+}
+
+.daysContainer__day__out {
+  background: lightgrey;
+}
+
+.daysContainer__day__choosen {
+  background-color: lightblue;
+}
+
+.daysContainer__day:hover {
+  cursor: pointer;
+}
+
+.daysContainer__title {
+  background: grey;
+}

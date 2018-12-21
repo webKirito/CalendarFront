@@ -18,6 +18,16 @@ class MyDate {
     }
   }
 
+  key(date) {
+    return `${date.day}${date.month}${date.year}`
+  }
+
+  niceDate({ month, year }) {
+    const options = { year: 'numeric', month: 'short' }
+    const date = new Date(year, month + 1, 0)
+    return date.toLocaleDateString('en-US', options)
+  }
+
   getInitialCalendar() {
     return this.generateCalendarForMonth(...this.date)
   }
@@ -61,6 +71,20 @@ class MyDate {
     }
   }
 
+  isToday({ year, month, day }, now) {
+    return (
+      new Date(
+        now.getUTCFullYear(),
+        now.getMonth(),
+        now.getDate(),
+      ).getTime() === new Date(year, month, day).getTime()
+    )
+  }
+
+  isOutOfCurrentMonth({ month }, now) {
+    return month !== now.getMonth()
+  }
+
   generateCalendarForMonth({ year, month }) {
     const numberOfDaysInCurrentMonth = this.getNumberOfDaysInMonth({
       year,
@@ -94,7 +118,7 @@ class MyDate {
         day: i,
         month,
         year,
-        event: {},
+        event: null,
       })
     }
     for (let i = indexOfLastMonthDay; i < 6; i++) {
