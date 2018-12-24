@@ -1,4 +1,11 @@
 .main {
-  height: 80vh;
+  height: 85vh;
   width: 100vw;
+}
+
+.header {
+  width: 100vw;
+  height: 15vh;
+  background-color: #f0e68c;
+  box-shadow: 0px 2px 18px 0px rgba(0, 0, 0, 0.75);
 }

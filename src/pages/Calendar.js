@@ -5,6 +5,7 @@ import { WEEK_DAYS_NAMES } from '../config'
 import { Position } from '../AdditionalClasses/MyDate'
 import { getMonthEvents } from '../actions/calendarActions'
 import styles from '../styles/Calendar.module.css'
+import Modal from '../Components/Modal'
 
 const mapStateToProps = state => {
   return {
@@ -30,7 +31,7 @@ const ListOfWeeks = () => {
 const Day = ({ day, handleAction, now }) => {
   return (
     <div
-      onClick={handleAction}
+      onClick={() => handleAction(day)()}
       className={
         date.isToday({ ...day }, now)
           ? styles.daysContainer__day__isToday
@@ -44,11 +45,41 @@ const Day = ({ day, handleAction, now }) => {
   )
 }
 
+const ButtonContainer = ({ handleNext, handlePrev, title }) => {
+  return (
+    <div className={styles.buttonContainer}>
+      <button className={styles.buttonContainer__button} onClick={handlePrev}>
+        {'<'}
+      </button>
+      <div className={styles.buttonContainer__title}>{title}</div>
+      <button className={styles.buttonContainer__button} onClick={handleNext}>
+        {'>'}
+      </button>
+    </div>
+  )
+}
+
+const CalendarContainer = ({ days, now, handleAction }) => {
+  return (
+    <div className={styles.daysContainer}>
+      <ListOfWeeks />
+      {days.map(day => (
+        <Day
+          key={date.key(day)}
+          day={day}
+          now={now}
+          handleAction={handleAction}
+        />
+      ))}
+    </div>
+  )
+}
+
 class Calendar extends Component {
   state = Calendar.getInitialState()
 
   componentDidMount() {
-    this.props.getMonthEvents()
+    this.props.getMonthEvents(date.id(this.state))
   }
 
   static getInitialState = () => {
@@ -56,12 +87,14 @@ class Calendar extends Component {
     return {
       month,
       year,
+      modalIsOpen: false,
       daysArray: [...date.generateCalendarForMonth({ month, year })],
     }
   }
 
   setNextMonth = () => {
     const nextMonth = date.nextMonth({ ...this.state })
+    this.props.getMonthEvents(date.id(nextMonth))
     this.setState({
       ...nextMonth,
       daysArray: [...date.generateCalendarForMonth({ ...nextMonth })],
@@ -69,9 +102,16 @@ class Calendar extends Component {
   }
   setPrevMonth = () => {
     const prevMonth = date.prevMonth({ ...this.state })
+    this.props.getMonthEvents(date.id(prevMonth))
     this.setState({
       ...prevMonth,
       daysArray: [...date.generateCalendarForMonth({ ...prevMonth })],
+    })
+  }
+
+  toggleModalOpen = () => {
+    this.setState({
+      modalIsOpen: !this.state.modalIsOpen,
     })
   }
 
@@ -81,14 +121,19 @@ class Calendar extends Component {
       return this.setNextMonth
     } else if (position === Position.PREV_POSITION) {
       return this.setPrevMonth
+    } else {
+      return this.toggleModalOpen
     }
   }
 
   mergeDaysWithEvents = (days, events) => {
-    for (let day of days) {
-      for (let event of events) {
-        if (new Date(day.year, day.month, day.day).getTime() === event.time) {
-          day.event = { ...event }
+    for (let i = 0; i < days.length; i++) {
+      for (let j = 0; j < events.length; j++) {
+        if (
+          new Date(days[i].year, days[i].month, days[i].day).getTime() ===
+          events[j].time
+        ) {
+          days[i].event = { ...events[j] }
         }
       }
     }
@@ -98,29 +143,30 @@ class Calendar extends Component {
     const now = new Date()
     const { events, loading } = this.props.calendar
     const days = this.mergeDaysWithEvents(this.state.daysArray, events)
-    console.log(days, events)
     return (
-      <div>
+      <section className={styles.calendarWrapper}>
         {!loading ? (
           <>
-            <button onClick={this.setPrevMonth}>Previous</button>
-            <span>{date.niceDate({ ...this.state })}</span>
-            <button onClick={this.setNextMonth}>Next</button>
-            <div className={styles.daysContainer}>
-              <ListOfWeeks />
-              {days.map(day => (
-                <Day
-                  day={day}
-                  now={now}
-                  handleAction={this.getActionByDayPosition(day)}
-                />
-              ))}
-            </div>
+            <ButtonContainer
+              handleNext={this.setNextMonth}
+              handlePrev={this.setPrevMonth}
+              title={date.niceDate({ ...this.state })}
+            />
+            <CalendarContainer
+              days={days}
+              handleAction={this.getActionByDayPosition}
+              now={now}
+            />
+            {this.state.modalIsOpen && (
+              <Modal>
+                <div onClick={this.toggleModalOpen}>Hello</div>
+              </Modal>
+            )}
           </>
         ) : (
           <div>Loading</div>
         )}
-      </div>
+      </section>
     )
   }
 }

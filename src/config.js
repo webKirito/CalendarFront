@@ -7,3 +7,13 @@ export const WEEK_DAYS_NAMES = [
   'Saturday',
   'Sunday',
 ]
+
+export const API_ROUTE = 'http://localhost:3001/api/date'
+
+// event
+//   {
+//     title: STRING
+//     partisipants: STRING
+//     description: STRING
+//     time: new Date(YEAR, MOUNT, DAY).getTime(),
+//   }

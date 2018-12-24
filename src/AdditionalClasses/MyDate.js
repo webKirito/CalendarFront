@@ -18,6 +18,10 @@ class MyDate {
     }
   }
 
+  id(date) {
+    return `${date.month}${date.year}`
+  }
+
   key(date) {
     return `${date.day}${date.month}${date.year}`
   }
@@ -73,11 +77,9 @@ class MyDate {
 
   isToday({ year, month, day }, now) {
     return (
-      new Date(
-        now.getUTCFullYear(),
-        now.getMonth(),
-        now.getDate(),
-      ).getTime() === new Date(year, month, day).getTime()
+      now.getUTCFullYear() === year &&
+      now.getMonth() === month &&
+      now.getDate() === day
     )
   }
 
