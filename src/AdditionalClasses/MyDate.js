@@ -18,8 +18,8 @@ class MyDate {
     }
   }
 
-  id(date) {
-    return `${date.month}${date.year}`
+  createId(date) {
+    return `${date.month}_${date.year}`
   }
 
   key(date) {

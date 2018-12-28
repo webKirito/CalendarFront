@@ -41,12 +41,12 @@ const events = [
   },
 ]
 
-export const getMonthEvents = id => dispatch => {
+export const getMonthEvents = date => dispatch => {
   dispatch({
     type: Actions.GET_MONTH_EVENTS_REQUEST,
   })
 
-  axios(`${API_ROUTE}/${id}`)
+  axios(`${API_ROUTE}/events/${date}`)
     .then(({ data }) => {
       dispatch({
         type: Actions.GET_MONTH_EVENTS_SUCCESS,
@@ -61,12 +61,12 @@ export const getMonthEvents = id => dispatch => {
     })
 }
 
-export const addMonthEvent = (id, event) => dispatch => {
+export const addMonthEvent = event => dispatch => {
   dispatch({
     type: Actions.ADD_MONTH_EVENT_REQUEST,
   })
   axios
-    .post(`${API_ROUTE}/${id}/${event.dayTime}`, {
+    .post(`${API_ROUTE}/event`, {
       event,
     })
     .then(event => {
@@ -88,7 +88,7 @@ export const updateMonthEvent = (id, event) => dispatch => {
     type: Actions.UPDATE_MONTH_EVENT_REQUEST,
   })
   axios
-    .put(`${API_ROUTE}/${id}/${event.dayTime}`, {
+    .put(`${API_ROUTE}/event/${id}`, {
       ...event,
     })
     .then(event => {
@@ -105,12 +105,12 @@ export const updateMonthEvent = (id, event) => dispatch => {
     })
 }
 
-export const getMonthEvent = (id, dayTime) => dispatch => {
+export const getMonthEvent = id => dispatch => {
   dispatch({
     type: Actions.GET_MONTH_EVENT_REQUEST,
   })
   axios
-    .get(`${API_ROUTE}/${id}/${dayTime}`)
+    .get(`${API_ROUTE}/event/${id}`)
     .then(event => {
       dispatch({
         type: Actions.GET_MONTH_EVENT_SUCCESS,
@@ -125,16 +125,16 @@ export const getMonthEvent = (id, dayTime) => dispatch => {
     })
 }
 
-export const deleteMonthEvent = (id, dayTime) => dispatch => {
+export const deleteMonthEvent = id => dispatch => {
   dispatch({
     type: Actions.DELETE_MONTH_EVENT_REQUEST,
   })
   axios
-    .get(`${API_ROUTE}/${id}/${dayTime}`)
+    .delete(`${API_ROUTE}/event/${id}`)
     .then(event => {
       dispatch({
         type: Actions.DELETE_MONTH_EVENT_SUCCESS,
-        payload: dayTime,
+        payload: id,
       })
     })
     .catch(e => {

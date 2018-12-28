@@ -8,7 +8,7 @@ export const WEEK_DAYS_NAMES = [
   'Sunday',
 ]
 
-export const API_ROUTE = 'http://localhost:3001/api/date'
+export const API_ROUTE = 'http://localhost:3001/api'
 
 // event
 //   {

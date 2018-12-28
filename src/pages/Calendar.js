@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { date } from '../AdditionalClasses/MyDate'
-import { WEEK_DAYS_NAMES } from '../config'
-import { Position } from '../AdditionalClasses/MyDate'
+import { date, Position } from '../AdditionalClasses/MyDate'
 import { getMonthEvents } from '../actions/calendarActions'
+import { setDay, clearDay } from '../actions/modalActions'
 import styles from '../styles/Calendar.module.css'
-import Modal from '../Components/Modal'
+import Modal from '../ReusableComponents/Modal'
+import ButtonContainer from './Calendar/ButtonContainer'
+import CalendarContainer from './Calendar/CalendarContainer'
+import LoadingContainer from '../ReusableComponents/LoadingContainer'
+import Form from '../Components/Form'
 
 const mapStateToProps = state => {
   return {
@@ -14,72 +17,15 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => ({
   getMonthEvents: date => dispatch(getMonthEvents(date)),
+  clearDay: () => dispatch(clearDay()),
+  setDay: day => dispatch(setDay(day)),
 })
-
-const ListOfWeeks = () => {
-  return (
-    <>
-      {WEEK_DAYS_NAMES.map(name => (
-        <div key={name} className={styles.daysContainer__title}>
-          {name}
-        </div>
-      ))}
-    </>
-  )
-}
-
-const Day = ({ day, handleAction, now }) => {
-  return (
-    <div
-      onClick={() => handleAction(day)()}
-      className={
-        date.isToday({ ...day }, now)
-          ? styles.daysContainer__day__isToday
-          : styles.daysContainer__day
-      }
-      key={date.key(day)}
-    >
-      <div>{day.day}</div>
-      {day.event && <div>{day.event.title}</div>}
-    </div>
-  )
-}
-
-const ButtonContainer = ({ handleNext, handlePrev, title }) => {
-  return (
-    <div className={styles.buttonContainer}>
-      <button className={styles.buttonContainer__button} onClick={handlePrev}>
-        {'<'}
-      </button>
-      <div className={styles.buttonContainer__title}>{title}</div>
-      <button className={styles.buttonContainer__button} onClick={handleNext}>
-        {'>'}
-      </button>
-    </div>
-  )
-}
-
-const CalendarContainer = ({ days, now, handleAction }) => {
-  return (
-    <div className={styles.daysContainer}>
-      <ListOfWeeks />
-      {days.map(day => (
-        <Day
-          key={date.key(day)}
-          day={day}
-          now={now}
-          handleAction={handleAction}
-        />
-      ))}
-    </div>
-  )
-}
 
 class Calendar extends Component {
   state = Calendar.getInitialState()
 
   componentDidMount() {
-    this.props.getMonthEvents(date.id(this.state))
+    this.props.getMonthEvents(date.createId(this.state))
   }
 
   static getInitialState = () => {
@@ -94,7 +40,7 @@ class Calendar extends Component {
 
   setNextMonth = () => {
     const nextMonth = date.nextMonth({ ...this.state })
-    this.props.getMonthEvents(date.id(nextMonth))
+    this.props.getMonthEvents(date.createId(nextMonth))
     this.setState({
       ...nextMonth,
       daysArray: [...date.generateCalendarForMonth({ ...nextMonth })],
@@ -102,14 +48,19 @@ class Calendar extends Component {
   }
   setPrevMonth = () => {
     const prevMonth = date.prevMonth({ ...this.state })
-    this.props.getMonthEvents(date.id(prevMonth))
+    this.props.getMonthEvents(date.createId(prevMonth))
     this.setState({
       ...prevMonth,
       daysArray: [...date.generateCalendarForMonth({ ...prevMonth })],
     })
   }
 
-  toggleModalOpen = () => {
+  toggleModal = day => {
+    if (this.state.modalIsOpen.modalIsOpen) {
+      this.props.clearDay()
+    } else {
+      this.props.setDay(day)
+    }
     this.setState({
       modalIsOpen: !this.state.modalIsOpen,
     })
@@ -122,7 +73,7 @@ class Calendar extends Component {
     } else if (position === Position.PREV_POSITION) {
       return this.setPrevMonth
     } else {
-      return this.toggleModalOpen
+      return this.toggleModal
     }
   }
 
@@ -130,10 +81,12 @@ class Calendar extends Component {
     for (let i = 0; i < days.length; i++) {
       for (let j = 0; j < events.length; j++) {
         if (
-          new Date(days[i].year, days[i].month, days[i].day).getTime() ===
-          events[j].time
+          days[i].year === +events[j].year &&
+          days[i].month === +events[j].month &&
+          days[i].day === +events[j].day
         ) {
           days[i].event = { ...events[j] }
+          break
         }
       }
     }
@@ -145,27 +98,23 @@ class Calendar extends Component {
     const days = this.mergeDaysWithEvents(this.state.daysArray, events)
     return (
       <section className={styles.calendarWrapper}>
-        {!loading ? (
-          <>
-            <ButtonContainer
-              handleNext={this.setNextMonth}
-              handlePrev={this.setPrevMonth}
-              title={date.niceDate({ ...this.state })}
-            />
-            <CalendarContainer
-              days={days}
-              handleAction={this.getActionByDayPosition}
-              now={now}
-            />
-            {this.state.modalIsOpen && (
-              <Modal>
-                <div onClick={this.toggleModalOpen}>Hello</div>
-              </Modal>
-            )}
-          </>
-        ) : (
-          <div>Loading</div>
-        )}
+        <LoadingContainer loading={loading}>
+          <ButtonContainer
+            handleNext={this.setNextMonth}
+            handlePrev={this.setPrevMonth}
+            title={date.niceDate({ ...this.state })}
+          />
+          <CalendarContainer
+            days={days}
+            handleAction={this.getActionByDayPosition}
+            now={now}
+          />
+          {this.state.modalIsOpen && (
+            <Modal>
+              <Form toggleModal={this.toggleModal} />
+            </Modal>
+          )}
+        </LoadingContainer>
       </section>
     )
   }

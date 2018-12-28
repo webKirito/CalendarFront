@@ -47,7 +47,7 @@ const calendarReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: '',
-        events: state.events.filter(event => event.time !== action.payload),
+        events: state.events.filter(event => event._id !== action.payload),
       }
     case Actions.UPDATE_MONTH_EVENT_SUCCESS:
       return {
@@ -55,7 +55,7 @@ const calendarReducer = (state = initialState, action) => {
         loading: false,
         error: '',
         events: state.events.map(event =>
-          event.time === action.payload.time ? action.payload : event,
+          event._id === action.payload._id ? action.payload : event,
         ),
       }
     case Actions.ADD_MONTH_EVENT_SUCCESS:
@@ -63,7 +63,7 @@ const calendarReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: '',
-        events: [...state.event, action.payload],
+        events: [...state.events, action.payload],
       }
     default:
       return state
