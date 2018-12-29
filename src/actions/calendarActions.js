@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { API_ROUTE } from '../config'
 
+import { hideModal } from './modalActions'
+
 export const Actions = {
   GET_MONTH_EVENTS_REQUEST: 'GET_MONTH_EVENTS_REQUEST',
   GET_MONTH_EVENTS_ERROR: 'GET_MONTH_EVENTS_ERROR',
@@ -19,27 +21,6 @@ export const Actions = {
   DELETE_MONTH_EVENT_SUCCESS: 'DELETE_MONTH_EVENT_SUCCESS',
   SEARCH_FOR_EVENT: 'SEARCH_FOR_EVENT',
 }
-
-const events = [
-  {
-    title: 'Asdfgjh yug gtugug ',
-    partisipants: 'A',
-    description: 'A',
-    time: new Date(2018, 10, 12).getTime(),
-  },
-  {
-    title: 'Byughlo;ojo ukjhiuuguv',
-    partisipants: 'B',
-    description: 'B',
-    time: new Date(2018, 11, 12).getTime(),
-  },
-  {
-    title: 'Ahgftuguyg',
-    partisipants: 'A',
-    description: 'A',
-    time: new Date(2018, 11, 1).getTime(),
-  },
-]
 
 export const getMonthEvents = date => dispatch => {
   dispatch({
@@ -69,10 +50,11 @@ export const addMonthEvent = event => dispatch => {
     .post(`${API_ROUTE}/event`, {
       event,
     })
-    .then(event => {
+    .then(({ data }) => {
+      dispatch(hideModal())
       dispatch({
         type: Actions.ADD_MONTH_EVENT_SUCCESS,
-        payload: event,
+        payload: data.data,
       })
     })
     .catch(e => {
@@ -91,10 +73,11 @@ export const updateMonthEvent = (id, event) => dispatch => {
     .put(`${API_ROUTE}/event/${id}`, {
       ...event,
     })
-    .then(event => {
+    .then(({ data }) => {
+      dispatch(hideModal())
       dispatch({
         type: Actions.UPDATE_MONTH_EVENT_SUCCESS,
-        payload: event,
+        payload: data.data,
       })
     })
     .catch(e => {
@@ -132,6 +115,7 @@ export const deleteMonthEvent = id => dispatch => {
   axios
     .delete(`${API_ROUTE}/event/${id}`)
     .then(event => {
+      dispatch(hideModal())
       dispatch({
         type: Actions.DELETE_MONTH_EVENT_SUCCESS,
         payload: id,
@@ -144,8 +128,3 @@ export const deleteMonthEvent = id => dispatch => {
       })
     })
 }
-
-export const filterEventsBySearch = search => ({
-  type: Actions.SEARCH_FOR_EVENT,
-  payload: search,
-})

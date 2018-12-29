@@ -3,10 +3,6 @@ import ReactDOM from 'react-dom'
 import styles from '../styles/Modal.module.css'
 
 class Modal extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentWillMount() {
     this.root = document.createElement('div')
     document.body.appendChild(this.root)

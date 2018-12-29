@@ -8,7 +8,7 @@
 
 .daysContainer {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, calc(100% / 7));
   grid-row-gap: 0;
   width: 80%;
   border-collapse: collapse;

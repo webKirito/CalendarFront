@@ -1,0 +1,34 @@
+.inputContainer {
+  position: absolute;
+  width: 20vw;
+  top: 5.5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+}
+
+.listOfItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 50vh;
+  width: 100%;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.listOfItems__item {
+  padding: 5px;
+  box-sizing: border-box;
+  width: 100%;
+  border-bottom: 1px solid yellow;
+  transition: 0.4s all linear;
+}
+
+.listOfItems__item:hover {
+  background-color: rgba(128, 128, 128, 0.603);
+}

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { date, Position } from '../AdditionalClasses/MyDate'
 import { getMonthEvents } from '../actions/calendarActions'
-import { setDay, clearDay } from '../actions/modalActions'
+import { setDay, hideModal } from '../actions/modalActions'
 import styles from '../styles/Calendar.module.css'
 import Modal from '../ReusableComponents/Modal'
 import ButtonContainer from './Calendar/ButtonContainer'
@@ -13,11 +13,12 @@ import Form from '../Components/Form'
 const mapStateToProps = state => {
   return {
     calendar: state.calendar,
+    modal: state.modal,
   }
 }
 const mapDispatchToProps = dispatch => ({
   getMonthEvents: date => dispatch(getMonthEvents(date)),
-  clearDay: () => dispatch(clearDay()),
+  hideModal: () => dispatch(hideModal()),
   setDay: day => dispatch(setDay(day)),
 })
 
@@ -33,7 +34,6 @@ class Calendar extends Component {
     return {
       month,
       year,
-      modalIsOpen: false,
       daysArray: [...date.generateCalendarForMonth({ month, year })],
     }
   }
@@ -55,17 +55,6 @@ class Calendar extends Component {
     })
   }
 
-  toggleModal = day => {
-    if (this.state.modalIsOpen.modalIsOpen) {
-      this.props.clearDay()
-    } else {
-      this.props.setDay(day)
-    }
-    this.setState({
-      modalIsOpen: !this.state.modalIsOpen,
-    })
-  }
-
   getActionByDayPosition = day => {
     const { position } = day
     if (position === Position.NEXT_POSITION) {
@@ -73,7 +62,7 @@ class Calendar extends Component {
     } else if (position === Position.PREV_POSITION) {
       return this.setPrevMonth
     } else {
-      return this.toggleModal
+      return day => this.props.setDay(day)
     }
   }
 
@@ -109,9 +98,9 @@ class Calendar extends Component {
             handleAction={this.getActionByDayPosition}
             now={now}
           />
-          {this.state.modalIsOpen && (
+          {this.props.modal.active && (
             <Modal>
-              <Form toggleModal={this.toggleModal} />
+              <Form hideModal={this.props.hideModal} />
             </Modal>
           )}
         </LoadingContainer>

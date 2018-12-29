@@ -5,6 +5,7 @@ import ListOfWeeks from './ListOfWeeks'
 import Day from './Day'
 
 const CalendarContainer = ({ days, now, handleAction }) => {
+  console.log(days)
   return (
     <div className={styles.daysContainer}>
       <ListOfWeeks />
