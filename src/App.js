@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
+//Header with routing
 import Header from './Components/Header'
+//Router
 import Main from './Components/Main'
+//Initial styles
 import './styles/reset.css'
 
 class App extends Component {

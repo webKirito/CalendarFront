@@ -7,6 +7,14 @@ import {
   addMonthEvent,
 } from '../actions/calendarActions'
 import { hideModal } from '../actions/modalActions'
+import ToggleInputComponent from './Form/ToggleInputComponent'
+import ButtonContainer from './Form/ButtonContainer'
+import TextArea from './Form/TextArea'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faTimes)
 
 const mapDispatchToProps = dispatch => ({
   updateMonthEvent: (id, event) => dispatch(updateMonthEvent(id, event)),
@@ -19,56 +27,6 @@ const mapStateToProps = state => {
   return {
     modal: state.modal,
   }
-}
-
-const ToggleInputComponent = ({ name, text, setAction }) => {
-  return (
-    <>
-      <div className={styles.form__label}>{name}</div>
-      {text ? (
-        <div className={styles.form__label}>{text}</div>
-      ) : (
-        <input
-          className={styles.form__titleInput}
-          onChange={e => setAction(e.target.value)}
-          type="text"
-        />
-      )}
-    </>
-  )
-}
-
-const TextArea = ({ value, setAction }) => {
-  return (
-    <>
-      <div className={styles.form__label}>Description</div>
-      <textarea
-        className={styles.form__descriptionInput}
-        onChange={e => setAction(e.target.value)}
-        value={value}
-      />
-    </>
-  )
-}
-
-const ButtonContainer = ({
-  day,
-  event,
-  dayIsCreated,
-  addMonthEvent,
-  deleteMonthEvent,
-  updateMonthEvent,
-}) => {
-  return dayIsCreated ? (
-    <>
-      <button onClick={() => deleteMonthEvent(day.event._id)}>Delete</button>
-      <button onClick={() => updateMonthEvent(day.event._id, event())}>
-        Update
-      </button>
-    </>
-  ) : (
-    <button onClick={() => addMonthEvent(event())}>Post</button>
-  )
 }
 
 class Form extends Component {
@@ -104,15 +62,21 @@ class Form extends Component {
     const dayIsCreated = day.event
     return (
       <div className={styles.form}>
-        <div>{`${day.day} ${day.month} ${day.year}`}</div>
-        <button onClick={this.props.hideModal}>Close</button>
+        <div className={styles.form__header}>
+          <div>{`Choosen: ${day.day}.${day.month}.${day.year}`}</div>
+          <FontAwesomeIcon
+            className={styles.form__button}
+            onClick={this.props.hideModal}
+            icon={faTimes}
+          />
+        </div>
         <ToggleInputComponent
-          name="Title"
+          name="Title:"
           text={this.getPropOfObject(day.event, 'title')}
           setAction={this.setTitle}
         />
         <ToggleInputComponent
-          name="Participants"
+          name="Participants:"
           text={this.getPropOfObject(day.event, 'participants')}
           setAction={this.setParticipants}
         />

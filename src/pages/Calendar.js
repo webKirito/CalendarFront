@@ -76,6 +76,8 @@ class Calendar extends Component {
         ) {
           days[i].event = { ...events[j] }
           break
+        } else {
+          days[i].event = null
         }
       }
     }
@@ -84,7 +86,7 @@ class Calendar extends Component {
   render() {
     const now = new Date()
     const { events, loading } = this.props.calendar
-    const days = this.mergeDaysWithEvents(this.state.daysArray, events)
+    const days = this.mergeDaysWithEvents([...this.state.daysArray], events)
     return (
       <section className={styles.calendarWrapper}>
         <LoadingContainer loading={loading}>

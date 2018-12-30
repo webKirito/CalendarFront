@@ -10,10 +10,4 @@ export const WEEK_DAYS_NAMES = [
 
 export const API_ROUTE = 'http://localhost:3001/api'
 
-// event
-//   {
-//     title: STRING
-//     partisipants: STRING
-//     description: STRING
-//     time: new Date(YEAR, MOUNT, DAY).getTime(),
-//   }
+export const MAX_TITLE_LENGTH_IN_DAY_CONTAINER = 12

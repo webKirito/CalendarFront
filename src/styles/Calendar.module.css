@@ -23,7 +23,7 @@
 .daysContainer__day__isToday {
   box-sizing: border-box;
   color: black;
-  padding: 10px;
+  padding: 5px;
   border: 0.25px solid #eee8aa;
   font-size: 0.7rem;
 }
@@ -43,15 +43,20 @@
   background-color: lightblue;
 }
 
-.daysContainer__day:hover {
-  cursor: pointer;
-}
-
 .daysContainer__title {
-  height: 8vh;
+  padding: 3vh 0;
   background: #fffacd;
   text-align: center;
   font-size: 1rem;
+}
+
+.dayTitle {
+  font-weight: 700;
+}
+
+.dayTitle:hover {
+  color: #b6a700;
+  cursor: pointer;
 }
 
 .buttonContainer {
@@ -63,19 +68,15 @@
 }
 
 .buttonContainer__button {
-  margin: 0 10px;
-  font-size: 1.2rem;
-  transition: all 0.2s linear;
-  outline: none;
-  border: none;
-  background-color: white;
+  transition: 0.2 all linear;
 }
 
 .buttonContainer__button:hover {
+  color: #b6a700;
   cursor: pointer;
-  background-color: rgb(185, 185, 185);
 }
 
 .buttonContainer__title {
-  font-size: 0, 9rem;
+  font-size: 0.9rem;
+  margin: 0 10px;
 }

@@ -116,6 +116,7 @@ export const deleteMonthEvent = id => dispatch => {
     .delete(`${API_ROUTE}/event/${id}`)
     .then(event => {
       dispatch(hideModal())
+      console.log(id)
       dispatch({
         type: Actions.DELETE_MONTH_EVENT_SUCCESS,
         payload: id,

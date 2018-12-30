@@ -54,7 +54,7 @@ const calendarReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: '',
-        events: [...state.events].map(event =>
+        events: state.events.map(event =>
           event._id === action.payload._id ? action.payload : event,
         ),
       }
