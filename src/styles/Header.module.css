@@ -19,16 +19,31 @@
   width: 100%;
   background-color: white;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .listOfItems__item {
-  padding: 5px;
+  padding: 10px 5px;
   box-sizing: border-box;
   width: 100%;
-  border-bottom: 1px solid yellow;
+  border-bottom: 1px solid #547c7a;
   transition: 0.4s all linear;
 }
 
 .listOfItems__item:hover {
-  background-color: rgba(128, 128, 128, 0.603);
+  background-color: #94c4c18c;
+}
+
+.item__text,
+.item__label {
+  padding: 5px;
+}
+
+.item__text {
+  font-size: 0.75rem;
+}
+
+.item__label {
+  font-weight: bold;
+  font-size: 0.8rem;
 }

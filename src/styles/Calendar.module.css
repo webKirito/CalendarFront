@@ -14,7 +14,7 @@
   border-collapse: collapse;
   border-spacing: 0;
   box-shadow: 0px 2px 18px 0px rgba(0, 0, 0, 0.75);
-  border: 0.25px solid #eee8aa;
+  border: 0.25px solid #4ac7bf86;
 }
 
 .daysContainer__day,
@@ -24,7 +24,7 @@
   box-sizing: border-box;
   color: black;
   padding: 5px;
-  border: 0.25px solid #eee8aa;
+  border: 0.25px solid #4ac7bf86;
   font-size: 0.7rem;
 }
 .daysContainer__day {
@@ -34,18 +34,18 @@
 
 .daysContainer__day__isToday {
   height: 10vh;
-  background-color: rgba(250, 250, 210, 0.877);
+  background-color: #94c4c18e;
   color: black;
 }
 
 .daysContainer__day__choosen {
   height: 10vh;
-  background-color: lightblue;
+  background-color: 94c4c1;
 }
 
 .daysContainer__title {
   padding: 3vh 0;
-  background: #fffacd;
+  background: #94c4c1;
   text-align: center;
   font-size: 1rem;
 }
@@ -55,7 +55,7 @@
 }
 
 .dayTitle:hover {
-  color: #b6a700;
+  color: #547c7a;
   cursor: pointer;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .buttonContainer__button:hover {
-  color: #b6a700;
+  color: #547c7a;
   cursor: pointer;
 }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import headerStyle from '../../styles/Header.module.css'
+import Event from './Event'
 
 const mapStateToProps = state => {
   return {
@@ -45,9 +46,7 @@ class Dropdown extends Component {
         {this.state.isOpened && (
           <div className={headerStyle.listOfItems}>
             {this.state.eventsBySearch.map(event => (
-              <div className={headerStyle.listOfItems__item} key={event._id}>
-                {event.title}
-              </div>
+              <Event key={event._id} event={event} />
             ))}
           </div>
         )}

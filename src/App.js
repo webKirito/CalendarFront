@@ -5,6 +5,7 @@ import Header from './Components/Header'
 import Main from './Components/Main'
 //Initial styles
 import './styles/reset.css'
+import './styles/webkit.config.css'
 
 class App extends Component {
   render() {
