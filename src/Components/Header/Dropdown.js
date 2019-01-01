@@ -26,11 +26,12 @@ class Dropdown extends Component {
   searchElementsByMask = mask => {
     const maskLowerCase = mask.toLowerCase()
     const { events } = this.props.calendar
-    const eventsBySearch = events.filter(
-      event =>
-        event.description.toLowerCase().includes(maskLowerCase) ||
-        event.title.toLowerCase().includes(maskLowerCase) ||
-        event.participants.toLowerCase().includes(maskLowerCase),
+    const eventsBySearch = events.filter(event =>
+      event.description
+        ? event.description.toLowerCase().includes(maskLowerCase)
+        : true ||
+          event.title.toLowerCase().includes(maskLowerCase) ||
+          event.participants.toLowerCase().includes(maskLowerCase),
     )
     this.setState({ eventsBySearch })
   }
