@@ -47,7 +47,7 @@ const calendarReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: '',
-        events: [...state.events].filter(event => event._id !== action.payload),
+        events: state.events.filter(event => event._id !== action.payload),
       }
     case Actions.UPDATE_MONTH_EVENT_SUCCESS:
       return {

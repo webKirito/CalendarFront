@@ -29,7 +29,7 @@ class Dropdown extends Component {
     const eventsBySearch = events.filter(event =>
       event.description
         ? event.description.toLowerCase().includes(maskLowerCase)
-        : true ||
+        : false ||
           event.title.toLowerCase().includes(maskLowerCase) ||
           event.participants.toLowerCase().includes(maskLowerCase),
     )

@@ -2,7 +2,7 @@ export const WEEK_DAYS_NAMES = [
   'Monday',
   'Tuesday',
   'Wednesday',
-  'Thirstday',
+  'Thursday',
   'Friday',
   'Saturday',
   'Sunday',

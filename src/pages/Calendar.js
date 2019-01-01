@@ -66,14 +66,11 @@ class Calendar extends Component {
     }
   }
 
-  mergeDaysWithEvents = (days, events) => {
+  mergeDaysWithEvents = events => {
+    const days = date.generateCalendarForMonth({ ...this.state })
     for (let i = 0; i < days.length; i++) {
       for (let j = 0; j < events.length; j++) {
-        if (
-          days[i].year === +events[j].year &&
-          days[i].month === +events[j].month &&
-          days[i].day === +events[j].day
-        ) {
+        if (this.isDayMatch(days[i], events[j])) {
           days[i].event = { ...events[j] }
           break
         } else {
@@ -83,10 +80,20 @@ class Calendar extends Component {
     }
     return days
   }
+
+  isDayMatch(day, event) {
+    return (
+      day.year === +event.year &&
+      day.month === +event.month &&
+      day.day === +event.day
+    )
+  }
+
   render() {
     const now = new Date()
     const { events, loading } = this.props.calendar
-    const days = this.mergeDaysWithEvents([...this.state.daysArray], events)
+    const days = this.mergeDaysWithEvents(events)
+    console.log(days)
     return (
       <section className={styles.calendarWrapper}>
         <LoadingContainer loading={loading}>

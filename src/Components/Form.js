@@ -63,7 +63,7 @@ class Form extends Component {
     return (
       <div className={styles.form}>
         <div className={styles.form__header}>
-          <div>{`Choosen: ${day.day}.${day.month}.${day.year}`}</div>
+          <div>{`Choosen: ${day.day}.${day.month + 1}.${day.year}`}</div>
           <FontAwesomeIcon
             className={styles.form__button}
             onClick={this.props.hideModal}

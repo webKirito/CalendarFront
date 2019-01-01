@@ -6,7 +6,7 @@ const Event = ({ event }) => {
     <div className={headerStyle.listOfItems__item}>
       <div className={headerStyle.item__label}>Date:</div>
       <div className={headerStyle.item__text}>
-        {event.day}.{event.month}.{event.year}
+        {event.day}.{event.month + 1}.{event.year}
       </div>
       <div className={headerStyle.item__label}>Title:</div>
       <div className={headerStyle.item__text}>{event.title}</div>
